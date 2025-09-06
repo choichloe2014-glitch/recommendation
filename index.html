@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+
+    <style>
+        /* 이미지 비율 통일: 왜곡 없이 4:3 박스에 채우기 */
+        .imgbox {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #f2f4f7;
+        }
+
+        .imgbox img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* 비율 유지, 잘림 허용 */
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="has-background-light">
+    <section class="section">
+        <div class="container">
+            <h1 class="title is-3 has-text-centered">랜덤 추천기</h1>
+
+            <!-- 버튼들 -->
+            <div class="buttons is-centered mb-5">
+                <button id="pickBtn" class="button is-primary">디저트추천</button>
+                <button id="drinkBtn" class="button is-link">음료추천</button>
+                <button id="AllBtn" class="button is-warning">동시에추천</button>
+            </div>
+
+            <!-- 카드 2열 -->
+            <div class="columns is-multiline is-variable is-6">
+                <!-- 디저트 카드 -->
+                <div class="column is-12-tablet is-6-desktop">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">디저트</p>
+                        </header>
+                        <div class="card-content">
+                            <p id="dessertresult" class="title is-5">아직 추천 전이에요! </p>
+                            <div class="imgbox">
+                                <!-- 스크립트가 이 id를 갱신합니다 -->
+                                <img id="dessertphoto" src="https://item.elandrs.com/upload/prd/orgimg/821/2101555821_0000003.jpg?w=750&h=&q=100" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 음료 카드 -->
+                <div class="column is-12-tablet is-6-desktop">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">음료</p>
+                        </header>
+                        <div class="card-content">
+                            <p id="result" class="title is-5"> 아직 추천 전이에요! </p>
+                            <div class="imgbox">
+                                <!-- 스크립트가 이 id를 갱신합니다 -->
+                                <img id="photo" src="https://recipe1.ezmember.co.kr/cache/recipe/2021/05/28/9b32c5680722801ef8a239bfec8a80d91.jpg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="has-text-centered is-size-7 has-text-grey mt-5">
+                버튼을 눌러 추천을 받아보세요!
+            </p>
+        </div>
+    </section>
+
+    <script>
+        //dessert
+        let desserts = [
+            { name: "치즈케이크", image: "https://item.elandrs.com/upload/prd/orgimg/821/2101555821_0000003.jpg?w=750&h=&q=100" },
+            { name: "컵케이크", image: "https://www.bncmarket.com/shopimages/ezbaking/009002000580.jpg?1615276107" },
+            { name: "쿠키", image: "https://recipe1.ezmember.co.kr/cache/recipe/2021/05/04/1c2ca998d5cd7096d48e7711dbf633d81.jpg" },
+            { name: "약과", image: "https://thegnnews.com/Files/273/News/202305/4628_20230521201555838.JPG" },
+            { name: "푸딩", image: "https://recipe1.ezmember.co.kr/cache/recipe/2021/05/28/9b32c5680722801ef8a239bfec8a80d91.jpg" }
+        ];
+
+        function getRandomdessert() {
+            let randomIndex = Math.floor(Math.random() * desserts.length);
+            let randomdessert = desserts[randomIndex];
+
+            console.log(getRandomdessert);
+
+            document.getElementById("dessertresult").innerText = randomdessert.name;
+            document.getElementById("dessertphoto").src = randomdessert.image;
+            document.getElementById("dessertphoto").alt = randomdessert.name + "이미지";
+        }
+
+        document.getElementById("pickBtn").addEventListener("click", getRandomdessert);
+
+        //drink--------------------------------------------------------------------------------------------------
+
+        let drinks = [
+            { name: "요구르트", image: "https://img-cf.kurly.com/hdims/resize/%3E720x/quality/90/src/shop/data/goodsview/20210902/gv40000222794_1.jpg" },
+            { name: "사이다", image: "https://blog.kakaocdn.net/dna/21hxU/btrpRXYrEo4/AAAAAAAAAAAAAAAAAAAAAH1JSHizVV5nNqaRfHkx32sFev4Dkf0i-VbSf9ScHshq/img.jpg?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1756652399&allow_ip=&allow_referer=&signature=XRz4jn5%2BDOyxtF%2FAMSSqwueIICs%3D" },
+            { name: "딸기우유", image: "https://i.namu.wiki/i/3QcHhs6-0IQ4JmeSaC35K6oAl7chykPs0uyID5aAi-kadqxHmJQzMCORCfJZHsjk1OLHtk7gaYW0VZacvqP4rw.webp" },
+            { name: "초코우유", image: "https://i.namu.wiki/i/NgfOM_VAy_BzH6aTOYpBt43lpBYLFN0t6iBC8uMgcPzOj9Kh2q9ZEhyTrfXRyEVGWqEK3d3eq28hm3TNvvedCA.webp" },
+            { name: "보리차", image: "https://blog.kakaocdn.net/dna/rytj8/btrKdRxmPMb/AAAAAAAAAAAAAAAAAAAAAPuil2LbNQBW17zkMhGddwO-H2ajCXqOaEHat4S5CXd6/img.png?credential=yqXZFxpELC7KVnFOS48ylbz2pIh7yKj8&expires=1756652399&allow_ip=&allow_referer=&signature=osCa988HsKPiBZRRmMgOxXT5yo4%3D" }
+        ];
+
+        function getRandomDrink() {
+            let randomIndex = Math.floor(Math.random() * drinks.length);
+            let randomDrink = drinks[randomIndex];
+
+            console.log(getRandomDrink);
+
+            document.getElementById("result").innerText = randomDrink.name;
+            document.getElementById("photo").src = randomDrink.image;
+            document.getElementById("photo").alt = randomDrink.name + "이미지";
+        }
+
+        document.getElementById("drinkBtn").addEventListener("click", getRandomDrink);
+
+        //all
+        function getRandomAll() {
+            getRandomdessert();
+            getRandomDrink();
+        }
+        document.getElementById("AllBtn").addEventListener("click", getRandomAll);
+    </script>
+</body>
+
+</html>
